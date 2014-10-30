@@ -2,6 +2,10 @@
 
 A library for generic spatial data structures.
 
+## Documentation
+
+Documentation can be found on [rust-ci](http://www.rust-ci.org/gaudecker/spatial/doc/spatial/).
+
 ## Quadtree
 
 In order for an object to be inserted into a quadtree, the
