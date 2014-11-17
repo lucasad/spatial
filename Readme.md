@@ -16,12 +16,12 @@ extern crate spatial;
 use spatial::quadtree::{Quadtree, Index, Volume};
 
 struct Object {
-    x: u16,
-    y: u16
+    x: f32,
+    y: f32
 }
 
-impl Index<u16> for Object {
-    fn quadtree_index(&self) -> [u16, ..2] {
+impl Index<f32> for Object {
+    fn quadtree_index(&self) -> [f32, ..2] {
         [self.x, self.y]
     }
 }
@@ -38,9 +38,9 @@ let mut tree = Quadtree::new(volume);
 Now the quadtree is ready for insertion and querying.
 
 ```rust
-if tree.insert(Object { x: 68, y: 194 }) {
+if tree.insert(Object { x: 68.0, y: 194.0 }) {
     println!("object inserted successfully!");
 }
 
-let objects = tree.get_in_volume(Volume::new([0, 0], [200, 200]));
+let objects = tree.get_in_volume(Volume::new([0.0, 0.0], [200.0, 200.0]));
 ```
