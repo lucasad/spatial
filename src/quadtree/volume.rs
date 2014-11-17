@@ -1,15 +1,16 @@
 use std::fmt::Show;
 use std::fmt;
+use std::num::Float;
 
 /// A two-dimensional bounding volume for a `Quadtree` node.
-pub struct Volume<T: Primitive> {
+pub struct Volume<T: Float> {
     /// The upper-left corner.
     pub min: [T, ..2],
     /// The lower-right corner.
     pub max: [T, ..2]
 }
 
-impl<T: Primitive> Volume<T> {
+impl<T: Float> Volume<T> {
     /// Create a new bounding volume from two points, where both `min`
     /// and `max` are of format `[x, y]`.
     #[inline]
@@ -53,7 +54,7 @@ impl<T: Primitive> Volume<T> {
     }
 }
 
-impl<T: Primitive + Show> Show for Volume<T> {
+impl<T: Float + Show> Show for Volume<T> {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         let min = self.min;
         let max = self.max;

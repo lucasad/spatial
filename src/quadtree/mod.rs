@@ -1,4 +1,4 @@
-use std::num::Primitive;
+use std::num::{Float, NumCast};
 use std::fmt::Show;
 pub use self::volume::Volume;
 
@@ -9,13 +9,13 @@ static DEFAULT_CAPACITY: uint = 8;
 
 /// A trait that must be implemented by types that are going to be
 /// inserted into a `Quadtree`.
-pub trait Index<T: Primitive + Show> {
+pub trait Index<T: Float + Show> {
     /// This method returns the position for `self` in 2D-space. The
     /// return format should be in order of `[x, y]`.
     fn quadtree_index(&self) -> [T, ..2];
 }
 
-pub struct Quadtree<T: Primitive + Show, P: Index<T> + Clone> {
+pub struct Quadtree<T: Float + Show, P: Index<T> + Clone> {
     /// Maximum number of items to store before subdivision.
     capacity: uint,
     /// Items in this quadtree node.
@@ -26,7 +26,7 @@ pub struct Quadtree<T: Primitive + Show, P: Index<T> + Clone> {
     quadrants: Option<[Box<Quadtree<T, P>>, ..4]>
 }
 
-impl<T: Primitive + Show, P: Index<T> + Clone> Quadtree<T, P> {
+impl<T: Float + Show, P: Index<T> + Clone> Quadtree<T, P> {
     /// Constructs a new, empty `Quadtree` with bounding volume `vol`
     /// and default node capacity of `DEFAULT_CAPACITY`.
     #[inline]
@@ -130,11 +130,11 @@ impl<T: Primitive + Show, P: Index<T> + Clone> Quadtree<T, P> {
             box Quadtree::with_capacity(Volume::new([min[0] + hh, min[1]], [max[0], hh]), self.capacity),
             box Quadtree::with_capacity(Volume::new([min[0], min[1] + hh], [hw, max[1]]), self.capacity),
             box Quadtree::with_capacity(Volume::new([min[0] + hw, min[1] + hh], [max[0], max[1]]), self.capacity)
-        ]);
+                ]);
     }
 }
 
 #[inline]
-fn half<T: Primitive + Show>(n: T) -> T {
+fn half<T: Float + Show>(n: T) -> T {
     n.div(&NumCast::from(2u).unwrap())
 }

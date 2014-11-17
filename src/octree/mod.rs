@@ -1,4 +1,4 @@
-use std::num::Primitive;
+use std::num::{Float, NumCast};
 use std::fmt::Show;
 pub use self::volume::Volume;
 
@@ -9,13 +9,13 @@ static DEFAULT_CAPACITY: uint = 8;
 
 /// A trait that must be implemented by types that are going to be
 /// inserted into an `Octree`.
-pub trait Index<T: Primitive + Show> {
+pub trait Index<T: Float + Show> {
     /// This method returns the position for `self` in 3D-space. The
     /// return format should be in order of `[x, y, z]`.
     fn octree_index(&self) -> [T, ..3];
 }
 
-pub struct Octree<T: Primitive + Show, I: Index<T> + Clone> {
+pub struct Octree<T: Float + Show, I: Index<T> + Clone> {
     /// Maximum number of items to store before subdivision.
     capacity: uint,
     /// Items in the node.
@@ -27,7 +27,7 @@ pub struct Octree<T: Primitive + Show, I: Index<T> + Clone> {
     octants: Option<[Box<Octree<T, I>>, ..8]>
 }
 
-impl<T: Primitive + Show, I: Index<T> + Clone> Octree<T, I> {
+impl<T: Float + Show, I: Index<T> + Clone> Octree<T, I> {
     /// Constructs a new, empty `Octree` with bounding volume `vol`
     /// and default node capacity of `DEFAULT_CAPACITY`.
     #[inline]
@@ -137,11 +137,11 @@ impl<T: Primitive + Show, I: Index<T> + Clone> Octree<T, I> {
             box Octree::with_capacity(Volume::new([min[0] + hh, min[1], hd], [max[0], hh, max[2]]), cap),
             box Octree::with_capacity(Volume::new([min[0], min[1] + hh, hd], [hw, max[1], max[2]]), cap),
             box Octree::with_capacity(Volume::new([min[0] + hw, min[1] + hh, hd], [max[0], max[1], max[2]]), cap)
-        ]);
+                ]);
     }
 }
 
 #[inline]
-fn half<T: Primitive + Show>(n: T) -> T {
+fn half<T: Float + Show>(n: T) -> T {
     n.div(&NumCast::from(2u).unwrap())
 }
