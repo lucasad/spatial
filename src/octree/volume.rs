@@ -5,16 +5,16 @@ use std::num::Float;
 /// A three-dimensional bounding volume for an `Octree` node.
 pub struct Volume<T: Float> {
     /// The upper-top-left corner.
-    pub min: [T, ..3],
+    pub min: [T; 3],
     /// The lower-bottom-right corner.
-    pub max: [T, ..3]
+    pub max: [T; 3]
 }
 
 impl<T: Float> Volume<T> {
     /// Create a new bounding volume from three points, where both `min`
     /// and `max` are of format `[x, y, z]`.
     #[inline]
-    pub fn new(min: [T, ..3], max: [T, ..3]) -> Volume<T> {
+    pub fn new(min: [T; 3], max: [T; 3]) -> Volume<T> {
         Volume {
             min: min,
             max: max
@@ -23,19 +23,19 @@ impl<T: Float> Volume<T> {
 
     /// Returns the upper-top-left corner.
     #[inline]
-    pub fn min(&self) -> [T, ..3] {
+    pub fn min(&self) -> [T; 3] {
         self.min
     }
 
     /// Returns the lower-bottom-right corner.
     #[inline]
-    pub fn max(&self) -> [T, ..3] {
+    pub fn max(&self) -> [T; 3] {
         self.max
     }
     
     /// Returns `true` if `p` is inside the volume, `false` otherwise.
     #[inline]
-    pub fn contains(&self, p: &[T, ..3]) -> bool {
+    pub fn contains(&self, p: &[T; 3]) -> bool {
         let min = self.min;
         let max = self.max;
         
@@ -60,7 +60,7 @@ impl<T: Float + Show> Show for Volume<T> {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         let min = self.min;
         let max = self.max;
-        write!(f, "[[{} {} {}] [{} {} {}]]", 
+        write!(f, "[[{:?} {:?} {:?}] [{:?} {:?} {:?}]]",
                min[0], min[1], min[2], max[0], max[1], max[2])
     }
 }

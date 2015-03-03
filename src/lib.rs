@@ -41,7 +41,7 @@
 //! The `Index`-traits are everything needed to start populating the
 //! trees.
 
-#[experimental]
+#![feature(box_syntax)]
 #[unstable]
 
 pub use quadtree::Quadtree;

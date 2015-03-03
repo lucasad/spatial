@@ -12,7 +12,7 @@ static DEFAULT_CAPACITY: uint = 8;
 pub trait Index<T: Float + Show> {
     /// This method returns the position for `self` in 2D-space. The
     /// return format should be in order of `[x, y]`.
-    fn quadtree_index(&self) -> [T, ..2];
+    fn quadtree_index(&self) -> [T; 2];
 }
 
 pub struct Quadtree<T: Float + Show, P: Index<T> + Clone> {
@@ -23,7 +23,7 @@ pub struct Quadtree<T: Float + Show, P: Index<T> + Clone> {
     /// Bounding volume of this node.
     volume: Volume<T>,
     /// The four quadrants of this node, in order of NW, NE, SW, SE.
-    quadrants: Option<[Box<Quadtree<T, P>>, ..4]>
+    quadrants: Option<[Box<Quadtree<T, P>>; 4]>
 }
 
 impl<T: Float + Show, P: Index<T> + Clone> Quadtree<T, P> {
@@ -136,5 +136,5 @@ impl<T: Float + Show, P: Index<T> + Clone> Quadtree<T, P> {
 
 #[inline]
 fn half<T: Float + Show>(n: T) -> T {
-    n.div(&NumCast::from(2u).unwrap())
+    n / NumCast::from(2u).unwrap()
 }

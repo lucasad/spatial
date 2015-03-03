@@ -12,7 +12,7 @@ static DEFAULT_CAPACITY: uint = 8;
 pub trait Index<T: Float + Show> {
     /// This method returns the position for `self` in 3D-space. The
     /// return format should be in order of `[x, y, z]`.
-    fn octree_index(&self) -> [T, ..3];
+    fn octree_index(&self) -> [T; 3];
 }
 
 pub struct Octree<T: Float + Show, I: Index<T> + Clone> {
@@ -24,7 +24,7 @@ pub struct Octree<T: Float + Show, I: Index<T> + Clone> {
     volume: Volume<T>,
     /// The octants of the node, in order of NW, NE, SW, SE, starting
     /// from the upper half.
-    octants: Option<[Box<Octree<T, I>>, ..8]>
+    octants: Option<[Box<Octree<T, I>>; 8]>
 }
 
 impl<T: Float + Show, I: Index<T> + Clone> Octree<T, I> {
@@ -143,5 +143,5 @@ impl<T: Float + Show, I: Index<T> + Clone> Octree<T, I> {
 
 #[inline]
 fn half<T: Float + Show>(n: T) -> T {
-    n.div(&NumCast::from(2u).unwrap())
+    n / NumCast::from(2u).unwrap()
 }
